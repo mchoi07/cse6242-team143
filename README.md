@@ -29,6 +29,8 @@ Execution: python nyt.py
 
 ***Output:***
 Returns a json list of articles where each article in the list is a json object of structure:
+ 
+ ```
  {
     'abstract': string,
     'abstract_clean': string,  # This is the abstract lemmatized and english stop words removed.
@@ -42,4 +44,4 @@ Returns a json list of articles where each article in the list is a json object 
     'about_apple': string,
     'about_tesla': string
 }
-
+```
