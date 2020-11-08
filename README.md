@@ -25,6 +25,7 @@ snscrape --jsonl twitter-search '<<kewords>> since:yyyy-mm-dd until:yyyy-mm-dd' 
 ```
 
 **NYT**
+
 Execution: python nyt.py
 
 ***Output:***
