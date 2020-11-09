@@ -46,3 +46,21 @@ Returns a json list of articles where each article in the list is a json object 
     'about_tesla': string
 }
 ```
+
+**Yahoo Finance**
+
+Execution: python fncl.py
+
+***Output:***
+Returns a json list of closing price, volume and their changes per each company tickers per day. 
+ 
+ ```
+ {
+    'ticker': string,
+    'date': date, 
+    'close': float64,
+    'close diff': float64,
+    'volume': float64,
+    'volume diff': float64,
+}
+```
