@@ -20,8 +20,9 @@ for i in tickers:
 data = data.reset_index().rename({'index':"date"},axis=1)
 #data.iloc[465:472,]   #confirm that diff is done for each company
 #print(data)
-#note that diff has n/a for each of the first date chosen. 
+data = data[["ticker","date","close","close diff","volume","volume diff"]]
 
+#note that diff has n/a for each of the first date chosen. 
 
 tojson = data.to_json(orient="records",date_format="iso")
 parsed = json.loads(tojson)
