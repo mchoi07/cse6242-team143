@@ -3,9 +3,11 @@ import string
 import nltk
 from nltk.tokenize import word_tokenize
 from textblob import TextBlob
+from textblob.sentiments import NaiveBayesAnalyzer
 
 nltk.download('stopwords')
 nltk.download('punkt')
+nltk.download('movie_reviews')
 
 def nlp_preparation (content):
     
@@ -28,3 +30,27 @@ def nlp_preparation (content):
     final_text = " ".join(token_result)
     
     return final_text
+
+def textblob_sentiment (content, naive = False):
+
+    '''
+    If naive = True, it will calculate probability to be positive or negative.
+    However, it requires heavy computing..
+    If Team wants to enable this, we need to run this on Cloud.
+    '''
+    
+    polarity = TextBlob(content).polarity
+    subjectivity = TextBlob(content).subjectivity
+    
+    if naive = True:
+        # Applying the NaiveBayesAnalyzer
+        blob_object = TextBlob(content, analyzer=NaiveBayesAnalyzer())
+        clf = blob_object.sentiment.classification
+        prob_positive = blob_object.sentiment.p_pos
+        prob_negative = blob_object.sentiment.p_neg
+        
+        return polarity, subjectivity, clf, prob_positive, prob_negative
+    
+    else:
+        
+        return polarity, subjectivity
