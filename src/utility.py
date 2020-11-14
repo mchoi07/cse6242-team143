@@ -4,6 +4,8 @@ import nltk
 from nltk.tokenize import word_tokenize
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
+from nltk.corpus import stopwords
+import json
 
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -31,7 +33,7 @@ def nlp_preparation (content):
     
     return final_text
 
-def textblob_sentiment (content, naive = False):
+def textblob_sentiment(content, naive = False):
 
     '''
     If naive = True, it will calculate probability to be positive or negative.
@@ -42,7 +44,7 @@ def textblob_sentiment (content, naive = False):
     polarity = TextBlob(content).polarity
     subjectivity = TextBlob(content).subjectivity
     
-    if naive = True:
+    if naive == True:
         # Applying the NaiveBayesAnalyzer
         blob_object = TextBlob(content, analyzer=NaiveBayesAnalyzer())
         clf = blob_object.sentiment.classification
@@ -54,3 +56,25 @@ def textblob_sentiment (content, naive = False):
     else:
         
         return polarity, subjectivity
+
+
+def save_to_json(filename, input_dict_list):
+    '''
+    Save dictionary list to json line by line
+    e.g
+
+    [{object1}, {object2}, {object3}]
+
+    to be
+
+    output.json
+    {object1}
+    {object2}
+    {object3}
+    
+    '''
+    output_file = open(filename, 'w', encoding = 'utf-8')
+
+    for dic in input_dict_list:
+        json.dump(dic, output_file)
+        output_file.write("\n")
