@@ -23,9 +23,8 @@ pip install:
 
 ```
 snscrape --jsonl twitter-search '<<kewords>> since:yyyy-mm-dd until:yyyy-mm-dd' > <<filename.json>>  
-```
-
 **Data Curation**
+```
 
 1. Twitter
 
@@ -63,3 +62,45 @@ snscrape --jsonl twitter-search '<<kewords>> since:yyyy-mm-dd until:yyyy-mm-dd' 
 > https://medium.com/@datamonsters/text-preprocessing-in-python-steps-tools-and-examples-bf025f872908
 >
 > 
+=======
+**NYT**
+
+Execution: python nyt.py
+
+***Output:***
+Returns a json list of articles where each article in the list is a json object of structure:
+
+ ```
+ {
+    'abstract': string,
+    'abstract_clean': string,  # This is the abstract lemmatized and english stop words removed.
+    'snippet': string,
+    'main_headline': string,
+    'name_headline': string,
+    'pub_date': date,
+    'word_count': integer,
+    'news_desk': string,
+    'section_name': string,
+    'about_apple': string,
+    'about_tesla': string
+}
+ ```
+
+**Yahoo Finance**
+
+Execution: python fncl.py
+
+***Output:***
+Returns a json list of closing price, volume and their changes per each company tickers per day. 
+
+ ```
+ {
+    'ticker': string,
+    'date': date, 
+    'close': float64,
+    'close diff': float64,
+    'volume': float64,
+    'volume diff': float64,
+}
+ ```
+>>>>>>> 2690c5623a5ae975e5982308a477218f284b8a1e
