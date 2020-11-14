@@ -1,0 +1,120 @@
+{
+  "Symbol": "AAPL",
+  "StockDailyPrice": {
+    "Date": "2020-09-30",
+    "ClosingPrice": 119.91,
+    "ChangeRatio": -0.2
+  },
+  "DailySentiments": {
+    "twitter": [{
+        "Date": "2020-09-29",
+        "KeywordSentiment": [{
+            "Keyword": "iPhone",
+            "CountOfInputs": 100,
+            "AggregatedSentimentAnalysis": [{
+              "Method": "vader",
+              "ProbOfPositives": 0.247,
+              "ProbOfNegatives": 0.588,
+              "ProbOfNeutrals": 0.165,
+              "averageSentimentScore": 0.5267
+            }, {
+              "Method": "textblob",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 1,
+              "ProbOfNeutrals": 0,
+              "averageSentimentScore": 0
+            }, {
+              "Method": "publicAPI",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 0.508,
+              "ProbOfNeutrals": 0.492,
+              "averageSentimentScore": -0.4767
+            }]
+          },
+          {
+            "Keyword": "iPad",
+            "CountOfInputs": 100,
+            "AggregatedSentimentAnalysis": [{
+              "Method": "vader",
+              "ProbOfPositives": 0.247,
+              "ProbOfNegatives": 0.588,
+              "ProbOfNeutrals": 0.165,
+              "averageSentimentScore": 0.5267
+            }, {
+              "Method": "textblob",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 1,
+              "ProbOfNeutrals": 0,
+              "averageSentimentScore": 0
+            }, {
+              "Method": "publicAPI",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 0.508,
+              "ProbOfNeutrals": 0.492,
+              "averageSentimentScore": -0.4767
+            }]
+          }
+        ]
+      },
+      {
+        "Date": "2020-09-30",
+        "KeywordSentiment": []
+      }
+    ],
+    "NYT": [{
+        "Date": "2020-09-29",
+        "KeywordSentiment": [{
+            "Keyword": "iPhone",
+            "CountOfInputs": 100,
+            "AggregatedSentimentAnalysis": [{
+              "Method": "vader",
+              "ProbOfPositives": 0.247,
+              "ProbOfNegatives": 0.588,
+              "ProbOfNeutrals": 0.165,
+              "averageSentimentScore": 0.5267
+            }, {
+              "Method": "textblob",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 1,
+              "ProbOfNeutrals": 0,
+              "averageSentimentScore": 0
+            }, {
+              "Method": "publicAPI",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 0.508,
+              "ProbOfNeutrals": 0.492,
+              "averageSentimentScore": -0.4767
+            }]
+          },
+          {
+            "Keyword": "iPad",
+            "CountOfInputs": 100,
+            "AggregatedSentimentAnalysis": [{
+              "Method": "vader",
+              "ProbOfPositives": 0.247,
+              "ProbOfNegatives": 0.588,
+              "ProbOfNeutrals": 0.165,
+              "averageSentimentScore": 0.5267
+            }, {
+              "Method": "textblob",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 1,
+              "ProbOfNeutrals": 0,
+              "averageSentimentScore": 0
+            }, {
+              "Method": "publicAPI",
+              "ProbOfPositives": 0,
+              "ProbOfNegatives": 0.508,
+              "ProbOfNeutrals": 0.492,
+              "averageSentimentScore": -0.4767
+            }]
+          }
+        ]
+      },
+      {
+        "Date": "2020-09-30",
+        "KeywordSentiment": []
+      }
+    ]
+  }
+}
