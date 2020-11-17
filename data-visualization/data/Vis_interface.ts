@@ -15,19 +15,12 @@ interface DailyPrice {
 
 interface DailySentiment {
   Date: Date;
-  KeywordSentiment: KeywordSentiment[];
-}
-
-interface KeywordSentiment {
-  Keyword: string;
-  CountOfInputs: number;
   AggregatedSentimentAnalysis: AggregatedSentimentAnalysis[];
 }
-
 interface AggregatedSentimentAnalysis {
   Method: string;
-  ProbOfPositives: number;
-  ProbOfNegatives: number;
-  ProbOfNeutrals: number;
+  CountOfPositives: number;
+  CountOfNeutrals: number;
+  CountOfNegatives: number;
   averageSentimentScore: number;
 }
