@@ -6,36 +6,65 @@ import './index.scss';
 export class ChartPanel extends Component {
   constructor(props) {
     super(props);
-    this.data = {
-      label: '',
-      values: [
-        { x: new Date(2015, 2, 5), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 6), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 7), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 8), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 9), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 10), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 11), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 12), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 13), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 14), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 15), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 16), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 16), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 18), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 19), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 20), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 21), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 22), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 23), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 24), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 25), y: Math.random() * 2 - 1 },
-        { x: new Date(2015, 2, 26), y: Math.random() * 2 - 1 }
-      ],
-    };
+    this.data = [
+      {
+        label: 'Stock',
+        values: [
+          { x: new Date(2015, 2, 5), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 6), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 7), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 8), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 9), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 10), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 11), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 12), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 13), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 14), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 15), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 16), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 16), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 18), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 19), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 20), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 21), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 22), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 23), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 24), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 25), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 26), y: Math.random() * 2 - 1 },
+        ],
+      },
+      {
+        label: 'Sentiment',
+        values: [
+          { x: new Date(2015, 2, 5), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 6), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 7), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 8), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 9), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 10), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 11), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 12), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 13), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 14), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 15), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 16), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 16), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 18), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 19), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 20), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 21), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 22), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 23), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 24), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 25), y: Math.random() * 2 - 1 },
+          { x: new Date(2015, 2, 26), y: Math.random() * 2 - 1 },
+        ],
+      },
+    ];
     //TODO: read from config
     this.chartMargin = { top: 10, bottom: 50, left: 50, right: 20 };
-    this.brushMargin = {top: 0, bottom: 30, left: 50, right: 20};
+    this.brushMargin = { top: 0, bottom: 30, left: 50, right: 20 };
     this.chartWidth = 1200;
     this.chartHeight = 400;
     this.brushHeight = 50;
@@ -50,11 +79,11 @@ export class ChartPanel extends Component {
       data: this.data,
       xScale: d3.time
         .scale()
-        .domain([this.data.values[0].x, this.data.values[this.data.values.length - 1].x])
+        .domain([this.data[0].values[0].x, this.data[0].values[this.data[0].values.length - 1].x])
         .range([0, this.chartWidth - this.chartMargin.left - this.chartMargin.right]),
       xScaleBrush: d3.time
         .scale()
-        .domain([this.data.values[0].x, this.data.values[this.data.values.length - 1].x])
+        .domain([this.data[0].values[0].x, this.data[0].values[this.data[0].values.length - 1].x])
         .range([
           0,
           (this.brushWidth ?? this.chartWidth) - this.brushMargin.left - this.brushMargin.right,
@@ -63,7 +92,7 @@ export class ChartPanel extends Component {
   }
 
   _tooltipHtml(label, data) {
-    return "this is a test";
+    return 'this is a test';
   }
 
   _onChange(extent) {
@@ -96,7 +125,10 @@ export class ChartPanel extends Component {
             height={this.brushHeight}
             margin={this.brushMargin}
             xScale={this.state.xScaleBrush}
-            extent={[this.data.values[0].x, this.data.values[this.data.values.length - 1].x]}
+            extent={[
+              this.data[0].values[0].x,
+              this.data[0].values[this.data[0].values.length - 1].x,
+            ]}
             onChange={this._onChange}
             xAxis={{
               tickValues: this.state.xScaleBrush.ticks(d3.time.day, 2),

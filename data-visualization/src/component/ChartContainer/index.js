@@ -3,10 +3,11 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { ChartPanel } from '../ChartPanel';
+import { ControlPanel } from '../ControlPanel';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    root: {
+    container: {
       flexGrow: 1,
     },
     paper: {
@@ -21,15 +22,12 @@ export const ChartContainer = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.container}>
       <Grid container spacing={3}>
         <Grid item xs={2}>
-          <Paper className={classes.paper}>stock chart selector</Paper>
+          <ControlPanel />
         </Grid>
-        <Grid item xs={2}>
-          <Paper className={classes.paper}>model selector</Paper>
-        </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={10}>
           <Paper className={classes.paper}>
             <ChartPanel />
           </Paper>
