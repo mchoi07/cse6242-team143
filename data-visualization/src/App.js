@@ -1,7 +1,7 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import './App.scss';
+import { ChartContainer } from './component/ChartContainer';
 
-import ChartContainer from './component/ChartContainer';
+import './App.scss';
 
 function App() {
   return (
@@ -15,7 +15,9 @@ function App() {
         </TabList>
 
         <TabPanel>
-          <p><ChartContainer /></p>
+          <p>
+            <ChartContainer />
+          </p>
         </TabPanel>
         <TabPanel>
           <p>what is this 2</p>

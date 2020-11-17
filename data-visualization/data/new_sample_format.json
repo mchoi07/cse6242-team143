@@ -1,0 +1,30 @@
+(
+  "AAPL": [{
+      "date": "2018-01-01",
+      "stock_price": 500.00,
+      "sentment": [{
+        "source": "twitter",
+        "textblob": {
+          "score": 0.99,
+          "positive": 100, // Optional
+          "neutral": 30, // Optional
+          "negative": 1 // Optional
+        },
+        "custom": {
+          "score": 0.51,
+          "positive": 100, // Optional
+          "neutral": 30, // Optional
+          "negative": 1 // Optional
+        }
+      },{
+        "source": "nyt",
+        "textblob": {
+          "score": 0.99
+        },
+        "custom": {
+          "score": 0.51
+        }
+      }]
+      }
+    ]
+}
