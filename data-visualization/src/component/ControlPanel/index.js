@@ -31,10 +31,9 @@ export const ControlPanel = (props) => {
     <>
       <Paper className={classes.paper}>
         <h3>Stock Movement</h3>
-        <div>Stock movement normalization factor</div>
         <div>
           <TextField
-            label="factor"
+            label="normalization factor"
             type="number"
             fullWidth={true}
             inputProps={{ min: '0', max: '2', step: '0.1' }}
