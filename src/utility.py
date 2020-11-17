@@ -68,13 +68,8 @@ def save_to_json(filename, input_dict_list):
     to be
 
     output.json
-    {object1}
-    {object2}
-    {object3}
+    [{object1}, {object2}, {object3}]
     
     '''
     output_file = open(filename, 'w', encoding = 'utf-8')
-
-    for dic in input_dict_list:
-        json.dump(dic, output_file)
-        output_file.write("\n")
+    json.dump(input_dict_list, output_file)
