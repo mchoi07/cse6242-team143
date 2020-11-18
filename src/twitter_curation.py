@@ -1,8 +1,9 @@
 import json
 import os
 from utility import nlp_preparation, textblob_sentiment, save_to_json
+from sentiment_classifier import SentimentClassifier, NLPModule
 
-def define_object(dictionary, company, filename, naive = False):
+def define_object(dictionary, company, filename,  classifier = None, naive = False):
     # Return Varialbe: Dictionary 
     data_dict = {}
     
@@ -20,14 +21,18 @@ def define_object(dictionary, company, filename, naive = False):
             data_dict['textblob_sentiment_polarity'], data_dict['textblob_sentiment_subjectivity'], data_dict['textblob_sentiment_classification'], data_dict['textblob_sentiment_p_pos'], data_dict['textblob_sentment_p_neg'] = textblob_sentiment(data_dict['textblob_content_clean'])
         
         else:
-            data_dict['textblob_sentiment_polarity'], data_dict['textblob_sentiment_subjectivity'] = textblob_sentiment(data_dict['content_clean'])
+            data_dict['sent_score_textblob'], _ = textblob_sentiment(data_dict['content_clean'])
         
+        data_dict['sent_score_custom'] = classifier.classify_sentiment(text = data_dict['content_clean'])
 
     return data_dict
 
 if __name__ == '__main__':
-    dir_path = '/Users/MinkyuChoi/Googledrive/3.education/edu_academic/georgia_tech/2020_3.class_fall/CSE6242/Group Project (CSE6242)/Engineering /Data/twitter-jan'
+    dir_path = './twitter-jan'
     data_list = []
+    nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt")
+    sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier")
+    sentiment_classifier.train_model()
 
         
     for file in os.listdir(dir_path):
@@ -35,12 +40,12 @@ if __name__ == '__main__':
         
         if 'json' in file:
             json_path = os.path.join(dir_path, file)
-            # print(json_path)
-            
+            print(json_path)
+
             with open(json_path, 'r') as f:
                 for jsonObj in f:
                     temp_object = json.loads(jsonObj)
-                    json_object = define_object(temp_object,company,file)
+                    json_object = define_object(temp_object,company,file, classifier = sentiment_classifier)
                     if json_object != {}:
                         data_list.append(json_object)
 
