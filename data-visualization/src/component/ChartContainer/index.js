@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) =>
 
 export const ChartContainer = (props) => {
   const classes = useStyles();
+  //const [chartData, setChartData] = useState(props.chartData);
+  const data = [{ label: 'stock', values: props.chartData.stock }];
 
   return (
     <div className={classes.container}>
@@ -29,7 +31,7 @@ export const ChartContainer = (props) => {
         </Grid>
         <Grid item xs={10}>
           <Paper className={classes.paper}>
-            <ChartPanel />
+            <ChartPanel data={data} />
           </Paper>
         </Grid>
       </Grid>
