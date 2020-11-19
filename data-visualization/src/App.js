@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Typography, AppBar, Tabs, Tab } from '@material-ui/core';
 
 import { ChartContainer } from './component/ChartContainer';
+
 import config from './config/config.json';
 
 function TabPanel(props) {
@@ -19,6 +18,8 @@ function TabPanel(props) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    margin: 'auto',
+    width: 1280,
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
@@ -34,25 +35,25 @@ export default function App(props) {
   const { companies } = config;
 
   return (
-    <>
-      <h1>Sentiment Analysis for Stockmarket</h1>
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Tabs value={value} onChange={handleChange}>
-            {companies.map((company, idx) => (
-              <Tab key={`tab-${idx}`} label={company} />
-            ))}
-          </Tabs>
-        </AppBar>
-        {companies.map((company, idx) => (
-          <TabPanel
-            key={`panel-${idx}`}
-            value={value}
-            index={idx}
-            chartData={props.appData[company]}
-          />
-        ))}
-      </div>
-    </>
+    <div className={classes.root}>
+      <Typography variant="h2" align="center">
+        Sentiment Analysis for Stockmarket
+      </Typography>
+      <AppBar position="static">
+        <Tabs value={value} onChange={handleChange}>
+          {companies.map((company, idx) => (
+            <Tab key={`tab-${idx}`} label={company} />
+          ))}
+        </Tabs>
+      </AppBar>
+      {companies.map((company, idx) => (
+        <TabPanel
+          key={`panel-${idx}`}
+          value={value}
+          index={idx}
+          chartData={props.appData[company]}
+        />
+      ))}
+    </div>
   );
 }

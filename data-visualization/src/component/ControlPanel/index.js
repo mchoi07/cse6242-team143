@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  TextField,
+  Button,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  FormGroup,
+  Checkbox,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    paper: {
-      padding: theme.spacing(2),
+    card: {
+      width: 200,
+      padding: '8 16',
+    },
+    cardTitle: {
       textAlign: 'center',
-      color: theme.palette.text.secondary,
+    },
+    cardAction: {
+      textAlign: 'center',
     },
   })
 );
@@ -52,15 +62,16 @@ export const ControlPanel = (props) => {
   };
 
   return (
-    <>
-      <Paper className={classes.paper}>
-        <h3>Stock Movement</h3>
-        <div>
+    <Box alignItems="center" justifyContent="center">
+      <Card className={classes.card}>
+        <h3 className={classes.cardTitle}>Stock Movement</h3>
+        <CardContent>
           <TextField
+            className={classes.input}
             label="normalization factor"
             type="number"
             fullWidth={true}
-            inputProps={{ min: '0', max: '2', step: '0.1' }}
+            inputProps={{ min: 1, max: 5, step: '0.1', style: { textAlign: 'right' } }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -70,38 +81,46 @@ export const ControlPanel = (props) => {
               setNormFactor(+e.target.value);
             }}
           />
-        </div>
-      </Paper>
-      <Paper className={classes.paper}>
-        <h3>Sentiment Analysis</h3>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Source</FormLabel>
-          <RadioGroup defaultValue="twitter" name="sentiment-model" onChange={handleRadioChange}>
-            <FormControlLabel value="twitter" control={<Radio />} label="Twitter" />
-            <FormControlLabel value="nytimes" control={<Radio />} label="NYTimes" />
-          </RadioGroup>
-        </FormControl>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Source</FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox onChange={handleCheckChange} checked={selectedTextblob} name="textblob" />
-              }
-              label="TextBlob"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={handleCheckChange} checked={selectedCustom} name="custom" />
-              }
-              label="Custom"
-            />
-          </FormGroup>
-        </FormControl>
-      </Paper>
-      <Button size="small" onClick={handleButtonClick}>
-        Update Chart
-      </Button>
-    </>
+        </CardContent>
+        <CardActions className={classes.cardAction}>
+          <Button size="small" variant="outlined" onClick={handleButtonClick}>
+            Apply
+          </Button>
+        </CardActions>
+      </Card>
+      <Card className={classes.card}>
+        <h3 className={classes.cardTitle}>Sentiment Analysis</h3>
+        <CardContent>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Source</FormLabel>
+            <RadioGroup defaultValue="twitter" name="sentiment-model" onChange={handleRadioChange}>
+              <FormControlLabel value="twitter" control={<Radio />} label="Twitter" />
+              <FormControlLabel value="nytimes" control={<Radio />} label="NYTimes" />
+            </RadioGroup>
+          </FormControl>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Model</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={handleCheckChange}
+                    checked={selectedTextblob}
+                    name="textblob"
+                  />
+                }
+                label="TextBlob"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox onChange={handleCheckChange} checked={selectedCustom} name="custom" />
+                }
+                label="Custom"
+              />
+            </FormGroup>
+          </FormControl>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
