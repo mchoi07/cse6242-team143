@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -23,8 +23,32 @@ const useStyles = makeStyles((theme) =>
 
 export const ControlPanel = (props) => {
   const classes = useStyles();
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+  const [normFactor, setNormFactor] = useState(1);
+  const [selectedTextblob, setSelectedTextblob] = useState(true);
+  const [selectedCustom, setSelectedCustom] = useState(true);
+  const [source, setSource] = useState('twitter');
+  const modelSelected = {
+    textblob: selectedTextblob,
+    custom: selectedCustom,
+  };
+
+  const handleCheckChange = (event) => {
+    modelSelected[event.target.name] = event.target.checked;
+    if (event.target.name === 'textblob') {
+      setSelectedTextblob(event.target.checked);
+    } else {
+      setSelectedCustom(event.target.checked);
+    }
+    props.onChange({ normFactor, source, modelSelected });
+  };
+
+  const handleRadioChange = (event) => {
+    setSource(event.target.defaultValue);
+    props.onChange({ normFactor, source: event.target.defaultValue, modelSelected });
+  };
+
+  const handleButtonClick = (event) => {
+    props.onChange({ normFactor, source, modelSelected });
   };
 
   return (
@@ -41,33 +65,43 @@ export const ControlPanel = (props) => {
               shrink: true,
             }}
             variant="outlined"
+            value={normFactor}
+            onChange={(e) => {
+              setNormFactor(+e.target.value);
+            }}
           />
         </div>
       </Paper>
       <Paper className={classes.paper}>
-        <h3>Sentiment model</h3>
+        <h3>Sentiment Analysis</h3>
         <FormControl component="fieldset">
-          <FormLabel component="legend">Sentiment</FormLabel>
-          <RadioGroup defaultValue="textblob" aria-label="sentiment" name="sentiment-model">
-            <FormControlLabel value="textblob" control={<Radio />} label="textblob" />
-            <FormControlLabel value="custom" control={<Radio />} label="custom" />
+          <FormLabel component="legend">Source</FormLabel>
+          <RadioGroup defaultValue="twitter" name="sentiment-model" onChange={handleRadioChange}>
+            <FormControlLabel value="twitter" control={<Radio />} label="Twitter" />
+            <FormControlLabel value="nytimes" control={<Radio />} label="NYTimes" />
           </RadioGroup>
         </FormControl>
         <FormControl component="fieldset">
           <FormLabel component="legend">Source</FormLabel>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} name="twitter" />}
-              label="Twitter"
+              control={
+                <Checkbox onChange={handleCheckChange} checked={selectedTextblob} name="textblob" />
+              }
+              label="TextBlob"
             />
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} name="nyt" />}
-              label="NYT"
+              control={
+                <Checkbox onChange={handleCheckChange} checked={selectedCustom} name="custom" />
+              }
+              label="Custom"
             />
           </FormGroup>
         </FormControl>
       </Paper>
-      <Button size="small">Update Chart</Button>
+      <Button size="small" onClick={handleButtonClick}>
+        Update Chart
+      </Button>
     </>
   );
 };

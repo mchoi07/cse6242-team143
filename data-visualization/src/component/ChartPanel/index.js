@@ -8,12 +8,12 @@ import config from '../../config/config.json';
 export class ChartPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = this.getInitialState(props);
+    this.state = this.getStateFromProps(props);
     this._tooltipHtml = this._tooltipHtml.bind(this);
     this._onChange = this._onChange.bind(this);
   }
 
-  getInitialState(props) {
+  getStateFromProps(props) {
     const { chartWidth, chartMargin, brushMargin } = config;
     const { minX, maxX } = this._getRange(props.data);
     return {
@@ -29,6 +29,13 @@ export class ChartPanel extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.data !== prevProps.data) {
+      const newState = this.getStateFromProps(this.props);
+      this.setState(this.getStateFromProps(newState));
+    }
+  }
+
   _getRange(data) {
     let minX, maxX;
     if (data.length > 0) {
@@ -39,7 +46,17 @@ export class ChartPanel extends Component {
   }
 
   _tooltipHtml(label, data) {
-    return 'this is a test';
+    if (label === 'stock') {
+      return <div>price: ${data.price}</div>;
+    } else {
+      return (
+        <div>
+          positives: {data.positives}
+          <br />
+          negatives: {data.negatives}
+        </div>
+      );
+    }
   }
 
   _onChange(extent) {

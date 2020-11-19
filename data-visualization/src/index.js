@@ -25,13 +25,13 @@ const preprocessData = (rawData) => {
     const initCompanyData = {
       stock: [],
       sentiment: {
-        textblob: {
-          NYTIMES: [],
-          TWITTER: [],
+        twitter: {
+          textblob: [],
+          custom: [],
         },
-        custom: {
-          NYTIMES: [],
-          TWITTER: [],
+        nytimes: {
+          textblob: [],
+          custom: [],
         },
       },
     };
@@ -44,16 +44,18 @@ const preprocessData = (rawData) => {
       });
     }
 
-    processed[company].sentiment.textblob[source].push({
+    processed[company].sentiment[source.toLowerCase()].textblob.push({
       x,
       y: sent_score_textblob,
+      source,
       positives: positives_textblob,
       negatives: negatives_textblob,
     });
 
-    processed[company].sentiment.custom[source].push({
+    processed[company].sentiment[source.toLowerCase()].custom.push({
       x,
       y: sent_score_custom,
+      source,
       positives: positives_custom,
       negatives: negatives_custom,
     });
@@ -65,12 +67,7 @@ fetch('data/aggregated.json')
   .then((r) => r.json())
   .then((data) => {
     const appData = preprocessData(data);
-    ReactDOM.render(
-      <React.StrictMode>
-        <App appData={appData} />
-      </React.StrictMode>,
-      document.getElementById('root')
-    );
+    ReactDOM.render(<App appData={appData} />, document.getElementById('root'));
   });
 
 // If you want to start measuring performance in your app, pass a function

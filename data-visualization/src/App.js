@@ -40,12 +40,17 @@ export default function App(props) {
         <AppBar position="static">
           <Tabs value={value} onChange={handleChange}>
             {companies.map((company, idx) => (
-              <Tab id={`tab-${idx}`} label={company} />
+              <Tab key={`tab-${idx}`} label={company} />
             ))}
           </Tabs>
         </AppBar>
         {companies.map((company, idx) => (
-          <TabPanel value={value} index={idx} chartData={props.appData[company]} />
+          <TabPanel
+            key={`panel-${idx}`}
+            value={value}
+            index={idx}
+            chartData={props.appData[company]}
+          />
         ))}
       </div>
     </>
