@@ -25,23 +25,38 @@ const preprocessData = (rawData) => {
     const initCompanyData = {
       stock: [],
       sentiment: {
-        NYTIMES: {
-          textblob: [],
-          custom: [],
+        textblob: {
+          NYTIMES: [],
+          TWITTER: [],
         },
-        TWITTER: {
-          textblob: [],
-          custom: [],
+        custom: {
+          NYTIMES: [],
+          TWITTER: [],
         },
       },
     };
     processed[company] = processed[company] || initCompanyData;
-    if (data.source === 'TWITTER')
+    if (source === 'TWITTER') {
       processed[company].stock.push({
         x,
         price,
         y: price && price_change ? price_change / price : 0,
       });
+    }
+
+    processed[company].sentiment.textblob[source].push({
+      x,
+      y: sent_score_textblob,
+      positives: positives_textblob,
+      negatives: negatives_textblob,
+    });
+
+    processed[company].sentiment.custom[source].push({
+      x,
+      y: sent_score_custom,
+      positives: positives_custom,
+      negatives: negatives_custom,
+    });
   });
   return processed;
 };

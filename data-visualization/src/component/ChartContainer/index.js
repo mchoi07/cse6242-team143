@@ -21,7 +21,11 @@ const useStyles = makeStyles((theme) =>
 export const ChartContainer = (props) => {
   const classes = useStyles();
   //const [chartData, setChartData] = useState(props.chartData);
-  const data = [{ label: 'stock', values: props.chartData.stock }];
+  const data = [
+    { label: 'stock', values: props.chartData.stock },
+    { label: 'twitter', values: props.chartData.sentiment.textblob.TWITTER },
+    { label: 'nytimes', values: props.chartData.sentiment.textblob.NYTIMES },
+  ];
 
   return (
     <div className={classes.container}>
