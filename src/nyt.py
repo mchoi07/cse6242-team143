@@ -3,10 +3,11 @@ import json
 from nltk.corpus import stopwords
 from textblob import TextBlob, Word
 from utility import nlp_preparation, textblob_sentiment
+from sentiment_classifier import SentimentClassifier, NLPModule
 
 APP_KEY = 'KEY HERE'
 
-def get_data(year=2019, num_of_months=2):
+def get_data(year=2019, num_of_months=2, cust_classifier = None):
     '''
         PARAMS:
             year: INT
@@ -61,8 +62,9 @@ def get_data(year=2019, num_of_months=2):
                     'keyword': entity['keywords'],
                     'content_raw': text,
                     'content_clean': nlp_preparation(text),
-                    'source': 'NYT',
-                    'sent_score_textblob': textblob_sentiment(nlp_preparation(text))[0]
+                    'source': 'NYTIMES',
+                    'sent_score_textblob': textblob_sentiment(nlp_preparation(text))[0],
+                    'sent_score_custom' : cust_classifier.classify_sentiment(text = text)
                 }
 
                 result_json.append(doc_simple)
@@ -74,6 +76,10 @@ if __name__ == '__main__':
 
     path = "nytime_data.json"
 
-    result_data = get_data(num_of_months=2)
+    nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt")
+    sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier")
+    sentiment_classifier.train_model()
+
+    result_data = get_data(num_of_months=2, cust_classifier=sentiment_classifier)
     with open(path, 'w') as f:
         json.dump(result_data, f)
