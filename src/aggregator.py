@@ -50,15 +50,9 @@ def get_finance_data(path, ticker_map):
 
 if __name__ == '__main__':
     #Process NY Times data
-    #nytimes_path = "./data/nytime_data.json"
-    #df_nytimes = pd.read_json(nytimes_path)
+    nytimes_path = "./data/nytime_data.json"
+    df_nytimes = pd.read_json(nytimes_path)
     
-    #Get the unique list of companies.
-    #companies = get_company_list(df_nytimes)
-
-    #Generate agg data files
-    #generate_agg_files(df_nytimes, companies, 'nytimes')
-
     #Get Finance Data.
     symbol_company_mapping = {'AAPL':'APPLE', 'DIS':'DISNEY', 'NFLX':'NETFLIX', 'TSLA':'TESLA'}
     finance_path = "./data/fnce_data.json"
@@ -68,10 +62,6 @@ if __name__ == '__main__':
     twitter_path = "./data/twitter.json"
     df_twitter = pd.read_json(twitter_path)
 
-    #Temp code-- remove once NYTIMES data is available with custom sentiment score.
-    df_nytimes = df_twitter.copy()
-    df_nytimes['source'] = "NYTIMES"
-        
     #Get the unique list of companies.
     companies = get_company_list(pd.concat([df_twitter, df_nytimes]))
 
