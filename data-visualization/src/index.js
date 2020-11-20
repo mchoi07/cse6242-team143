@@ -14,8 +14,10 @@ const preprocessData = (rawData) => {
       sent_score_textblob,
       sent_score_custom,
       positives_textblob,
+      neutrals_textblob,
       negatives_textblob,
       positives_custom,
+      neutrals_custom,
       negatives_custom,
       price,
       price_change,
@@ -49,6 +51,7 @@ const preprocessData = (rawData) => {
       y: sent_score_textblob,
       source,
       positives: positives_textblob,
+      neutrals: neutrals_textblob,
       negatives: negatives_textblob,
     });
 
@@ -57,6 +60,7 @@ const preprocessData = (rawData) => {
       y: sent_score_custom,
       source,
       positives: positives_custom,
+      neutrals: neutrals_custom,
       negatives: negatives_custom,
     });
   });

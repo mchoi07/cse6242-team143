@@ -53,6 +53,8 @@ export class ChartPanel extends Component {
         <div>
           positives: {data.positives}
           <br />
+          neutrals: {data.neutrals}
+          <br />
           negatives: {data.negatives}
         </div>
       );
