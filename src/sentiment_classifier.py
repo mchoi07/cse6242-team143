@@ -29,15 +29,11 @@ class NLPModule:
         self.whitelist = []
         self.ngrams = ngrams
         if whitelist_path != None and path.exists(whitelist_path):
-            print ("whitelist file found! Creating whitelist")
             with open(whitelist_path, "r") as file:
                 for line in file:
                     for word in line.split():
                         self.whitelist.append(word)
-            print ("Whitelist is: ", self.whitelist)
             
-                
-
     #Function to tokenize the Text
     #Input <- text: type string, A text sentence to be tokenized
     #output <- tokens: type list, A list of tokens
