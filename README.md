@@ -124,3 +124,4 @@ snscrape --jsonl twitter-search '<<kewords>> since:yyyy-mm-dd until:yyyy-mm-dd' 
 **References**
 
 > https://medium.com/@datamonsters/text-preprocessing-in-python-steps-tools-and-examples-bf025f872908
+> http://help.sentiment140.com/for-students
