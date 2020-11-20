@@ -5,9 +5,9 @@ from textblob import TextBlob, Word
 from utility import nlp_preparation, textblob_sentiment
 from sentiment_classifier import SentimentClassifier, NLPModule
 
-APP_KEY = 'KEY HERE'
+APP_KEY = 'APP KEY HERE'
 
-def get_data(year=2019, num_of_months=2, cust_classifier = None):
+def get_data(year=2019, num_of_months=12, cust_classifier = None):
     '''
         PARAMS:
             year: INT
@@ -80,6 +80,6 @@ if __name__ == '__main__':
     sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier")
     sentiment_classifier.train_model()
 
-    result_data = get_data(num_of_months=2, cust_classifier=sentiment_classifier)
+    result_data = get_data(num_of_months=12, cust_classifier=sentiment_classifier)
     with open(path, 'w') as f:
         json.dump(result_data, f)
