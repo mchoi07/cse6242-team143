@@ -4,8 +4,7 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const preprocessData = (rawData) => {
-  let processed = {};
+const preprocessData = (rawData, processed = {}, isLarge = false) => {
   rawData.map((data) => {
     const {
       date,
@@ -29,15 +28,28 @@ const preprocessData = (rawData) => {
       sentiment: {
         twitter: {
           textblob: [],
-          custom: [],
+          small: [],
+          large: []
         },
         nytimes: {
           textblob: [],
-          custom: [],
+          small: [],
+          large: []
         },
       },
     };
     processed[company] = processed[company] || initCompanyData;
+    if (isLarge) {
+      processed[company].sentiment[source.toLowerCase()].large.push({
+        x,
+        y: sent_score_custom,
+        source,
+        positives: positives_custom,
+        neutrals: neutrals_custom,
+        negatives: negatives_custom,
+      });
+      return;
+    }
     if (source === 'TWITTER') {
       processed[company].stock.push({
         x,
@@ -55,7 +67,7 @@ const preprocessData = (rawData) => {
       negatives: negatives_textblob,
     });
 
-    processed[company].sentiment[source.toLowerCase()].custom.push({
+    processed[company].sentiment[source.toLowerCase()].small.push({
       x,
       y: sent_score_custom,
       source,
@@ -67,10 +79,11 @@ const preprocessData = (rawData) => {
   return processed;
 };
 
-fetch('data/aggregated.json')
-  .then((r) => r.json())
-  .then((data) => {
-    const appData = preprocessData(data);
+Promise.all([fetch('data/aggregated.json'), fetch('data/aggregated_large.json')]) 
+  .then(([s, l]) => Promise.all([s.json(), l.json()]))
+  .then(([sdata, ldata]) => {
+    const appData = preprocessData(sdata);
+    preprocessData(ldata, appData, true);
     ReactDOM.render(<App appData={appData} />, document.getElementById('root'));
   });
 

@@ -35,19 +35,23 @@ export const ControlPanel = (props) => {
   const classes = useStyles();
   const [normFactor, setNormFactor] = useState(1);
   const [selectedTextblob, setSelectedTextblob] = useState(true);
-  const [selectedCustom, setSelectedCustom] = useState(true);
+  const [selectedSmall, setSelectedSmall] = useState(true);
+  const [selectedLarge, setSelectedLarge] = useState(true);
   const [source, setSource] = useState('twitter');
   const modelSelected = {
     textblob: selectedTextblob,
-    custom: selectedCustom,
+    small: selectedSmall,
+    large: selectedLarge,
   };
 
   const handleCheckChange = (event) => {
     modelSelected[event.target.name] = event.target.checked;
     if (event.target.name === 'textblob') {
       setSelectedTextblob(event.target.checked);
+    } else if (event.target.name === 'large') {
+      setSelectedLarge(event.target.checked);
     } else {
-      setSelectedCustom(event.target.checked);
+      setSelectedSmall(event.target.checked);
     }
     props.onChange({ normFactor, source, modelSelected });
   };
@@ -68,10 +72,10 @@ export const ControlPanel = (props) => {
         <CardContent>
           <TextField
             className={classes.input}
-            label="normalization factor"
+            label="scaling adjustment"
             type="number"
             fullWidth={true}
-            inputProps={{ min: 1, max: 5, step: '0.1', style: { textAlign: 'right' } }}
+            inputProps={{ min: 1, max: 5, step: '0.1', style: { height: 5, textAlign: 'right' } }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -113,9 +117,15 @@ export const ControlPanel = (props) => {
               />
               <FormControlLabel
                 control={
-                  <Checkbox onChange={handleCheckChange} checked={selectedCustom} name="custom" />
+                  <Checkbox onChange={handleCheckChange} checked={selectedSmall} name="small" />
                 }
-                label="Custom"
+                label="Custom (small)"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox onChange={handleCheckChange} checked={selectedLarge} name="large" />
+                }
+                label="Custom (large)"
               />
             </FormGroup>
           </FormControl>

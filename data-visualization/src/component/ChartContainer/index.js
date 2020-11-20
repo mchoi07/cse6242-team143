@@ -23,7 +23,8 @@ export const ChartContainer = (props) => {
   const initialData = [
     { label: 'stock', values: props.chartData.stock },
     { label: 'textblob', values: props.chartData.sentiment['twitter'].textblob },
-    { label: 'custom', values: props.chartData.sentiment['twitter'].custom },
+    { label: 'small', values: props.chartData.sentiment['twitter'].small },
+    { label: 'large', values: props.chartData.sentiment['twitter'].large },
   ];
   const [chartData, setChartData] = useState(initialData);
 
@@ -39,8 +40,11 @@ export const ChartContainer = (props) => {
     ];
     if (modelSelected.textblob)
       data.push({ label: 'textblob', values: props.chartData.sentiment[source].textblob });
-    if (modelSelected.custom)
-      data.push({ label: 'custom', values: props.chartData.sentiment[source].custom });
+    if (modelSelected.small)
+      data.push({ label: 'small', values: props.chartData.sentiment[source].small });
+    if (modelSelected.large)
+      data.push({ label: 'large', values: props.chartData.sentiment[source].large });
+
     setChartData(data);
   };
 
