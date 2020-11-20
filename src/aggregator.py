@@ -9,15 +9,19 @@ def agg_on_company (df):
     df_out = df[['date', 'company', 'source', 'sent_score_textblob', 'sent_score_custom']]
     df_out['date'] = df_out['date'].apply(lambda x: x.strftime("%m-%d-%Y"))
     df_out['positives_textblob'] = [1 if x >= 0.2 else 0 for x in df_out['sent_score_textblob']]
+    df_out['neutrals_textblob'] = [1 if (x > -0.2 and x < 0.2) else 0 for x in df_out['sent_score_textblob']]
     df_out['negatives_textblob'] = [1 if x <= -0.2 else 0 for x in df_out['sent_score_textblob']]
     df_out['positives_custom'] = [1 if x >= 0.2 else 0 for x in df_out['sent_score_custom']]
+    df_out['neutrals_custom'] = [1 if (x > -0.2 and x < 0.2) else 0 for x in df_out['sent_score_custom']]
     df_out['negatives_custom'] = [1 if x <= -0.2 else 0 for x in df_out['sent_score_custom']]
     df_out = df_out.groupby(['date', 'company', 'source'],
                             as_index=False).agg({'sent_score_textblob': 'mean',
                                                 'sent_score_custom':'mean',
                                                 'positives_textblob':'sum',
+                                                'neutrals_textblob':'sum',
                                                 'negatives_textblob':'sum',
                                                 'positives_custom':'sum',
+                                                'neutrals_custom':'sum',
                                                 'negatives_custom':'sum'})
     return df_out
 

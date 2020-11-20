@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from utility import nlp_preparation, textblob_sentiment, save_to_json
 from sentiment_classifier import SentimentClassifier, NLPModule
 
@@ -28,19 +29,26 @@ def define_object(dictionary, company, filename,  classifier = None, naive = Fal
     return data_dict
 
 if __name__ == '__main__':
-    dir_path = './twitter-jan'
+    start_time = time.time()
+    interval_time = time.time()
+    dir_path = './twitter-raw'
     data_list = []
     nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt")
     sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier")
     sentiment_classifier.train_model()
+    prev_company = ""
 
-        
     for file in os.listdir(dir_path):
         company = file.split('_')[0]
         
         if 'json' in file:
             json_path = os.path.join(dir_path, file)
-            print(json_path)
+            if(company != prev_company):   
+                if (prev_company != ""):
+                    print("Time taken %s seconds ---" % (time.time() - interval_time))
+                    interval_time = time.time()
+                print("Processing data for {} ....".format(company))
+                prev_company = company
 
             with open(json_path, 'r') as f:
                 for jsonObj in f:
@@ -51,3 +59,4 @@ if __name__ == '__main__':
 
     # Save to json
     save_to_json('twitter.json', data_list)
+    print("Total Time taken %s seconds ---" % (time.time() - start_time))
