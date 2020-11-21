@@ -122,17 +122,45 @@ export class ChartPanel extends Component {
 
     return (
       <div>
-        <LineChart
-          data={this.state.dataStock}
-          width={chartWidth}
-          height={chartHeight}
-          margin={chartMargin}
-          xScale={this.state.xScale}
-          xAxis={{
-            tickValues: this.state.xScale.ticks(10),
-            tickFormat: d3.time.format('%m/%d'),
-          }}
-        />
+        <div className="sentimentChart">
+          <div className="leftY">
+            <LineChart
+              data={this.state.dataMovement}
+              width={chartWidth}
+              height={sentimentHeight}
+              margin={chartMargin}
+              xScale={this.state.xScale}
+              yScale={this.state.yScaleMovement}
+              xAxis={{
+                tickValues: this.state.xScale.ticks(10),
+                tickFormat: d3.time.format('%m/%d'),
+                zero: 0,
+              }}
+              yAxis={{ label: '% of price changes' }}
+              tooltipHtml={this._tooltipHtml}
+            />
+          </div>
+          {this.state.dataSentiment.length > 0 && (
+            <div className="rightY" style={{ bottom: sentimentHeight + 3 }}>
+              <LineChart
+                data={this.state.dataSentiment}
+                width={chartWidth}
+                height={sentimentHeight}
+                margin={chartMargin}
+                xScale={this.state.xScale}
+                yScale={this.state.yScaleSentiment}
+                xAxis={{
+                  tickValues: this.state.xScale.ticks(10),
+                  tickFormat: d3.time.format(''),
+                  zero: 0,
+                }}
+                yAxis={{ orientation: 'right', label: 'sentiment score' }}
+                tooltipHtml={this._tooltipHtml}
+              />
+            </div>
+          )}
+        </div>
+
         <div className="brush nofloat">
           <Brush
             width={chartWidth}
@@ -144,44 +172,22 @@ export class ChartPanel extends Component {
             xAxis={{
               tickValues: this.state.xScaleBrush.ticks(20),
               tickFormat: d3.time.format('%m/%d'),
+              label: 'Watching Timeline',
             }}
           />
         </div>
-        <div className="leftY">
-          <LineChart
-            data={this.state.dataMovement}
-            width={chartWidth}
-            height={sentimentHeight}
-            margin={chartMargin}
-            xScale={this.state.xScale}
-            yScale={this.state.yScaleMovement}
-            xAxis={{
-              tickValues: this.state.xScale.ticks(10),
-              tickFormat: d3.time.format('%m/%d'),
-              zero: 0,
-            }}
-            tooltipHtml={this._tooltipHtml}
-          />
-        </div>
-        {this.state.dataSentiment.length > 0 && (
-          <div className="rightY" style={{ bottom: sentimentHeight + 3 }}>
-            <LineChart
-              data={this.state.dataSentiment}
-              width={chartWidth}
-              height={sentimentHeight}
-              margin={chartMargin}
-              xScale={this.state.xScale}
-              yScale={this.state.yScaleSentiment}
-              xAxis={{
-                tickValues: this.state.xScale.ticks(10),
-                tickFormat: d3.time.format(''),
-                zero: 0,
-              }}
-              yAxis={{ orientation: 'right' }}
-              tooltipHtml={this._tooltipHtml}
-            />
-          </div>
-        )}
+        <LineChart
+          data={this.state.dataStock}
+          width={chartWidth}
+          height={chartHeight}
+          margin={chartMargin}
+          xScale={this.state.xScale}
+          xAxis={{
+            tickValues: this.state.xScale.ticks(10),
+            tickFormat: d3.time.format('%m/%d'),
+          }}
+          yAxis={{ label: 'stock price' }}
+        />
       </div>
     );
   }

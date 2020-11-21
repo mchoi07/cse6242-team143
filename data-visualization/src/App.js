@@ -37,7 +37,7 @@ export default function App(props) {
   return (
     <div className={classes.root}>
       <Typography variant="h2" align="center">
-        Sentiment Analysis for Stockmarket
+        Sentiment Analysis vs. Stock Price Movement
       </Typography>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange}>
