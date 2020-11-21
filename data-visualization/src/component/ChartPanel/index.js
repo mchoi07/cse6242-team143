@@ -93,11 +93,6 @@ export class ChartPanel extends Component {
     }
   }
 
-  _getColor(label, p1, p2, p3) {
-    console.log(label, p1, p2, p3);
-    return 'green';
-  }
-
   _onChange(extent) {
     const { chartWidth, chartMargin } = config;
     this.setState({
@@ -116,15 +111,32 @@ export class ChartPanel extends Component {
       chartMargin,
       brushHeight,
       brushMargin,
+      colorStock,
+      colorBlob,
+      colorSmall,
+      colorLarge
     } = config;
     const { minX, maxX } = this._getXRange(this.state.dataStock);
-
-    /*
-    const xScaleBrush = d3.time
-      .scale()
-      .domain([minX, maxX])
-      .range([0, chartWidth - brushMargin?.left - brushMargin?.right]); */
-
+    const customColorScale = (x) => { 
+       let color;
+       switch(x) {
+         case 'stock':
+          color = colorStock;
+           break;
+         case 'textblob':
+          color = colorBlob;
+           break;
+          case 'small':
+            color = colorSmall
+            break;
+          case 'large':
+            color = colorLarge
+            break;
+          default:
+            color = '#1f77b4'
+        }
+        return color;
+    };
     return (
       <div>
         <div className="sentimentChart">
@@ -144,11 +156,7 @@ export class ChartPanel extends Component {
               }}
               yAxis={{ label: 'price changes' }}
               tooltipHtml={this._tooltipHtml}
-              stroke={{
-                strokeColor: this._getColor,
-                colorStroke: this._getColor,
-              }}
-              colorStroke={this._getColor}
+              colorScale={customColorScale}
             />
           </div>
           {this.state.dataSentiment.length > 0 && (
@@ -167,6 +175,7 @@ export class ChartPanel extends Component {
                 }}
                 yAxis={{ orientation: 'right', label: 'sentiment score' }}
                 tooltipHtml={this._tooltipHtml}
+                colorScale={customColorScale}
               />
             </div>
           )}
