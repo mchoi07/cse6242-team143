@@ -38,11 +38,11 @@ export class ChartPanel extends Component {
       yScaleMovement: d3.scale
         .linear()
         .domain(this._getYRange(props.data[0]))
-        .range([0, sentimentHeight - chartMargin?.top - chartMargin?.bottom]),
+        .range([sentimentHeight - chartMargin?.top - chartMargin?.bottom, 0]),
       yScaleSentiment: d3.scale
         .linear()
         .domain(this._getYRange(props.data.slice(1)))
-        .range([0, sentimentHeight - chartMargin?.top - chartMargin?.bottom]),
+        .range([sentimentHeight - chartMargin?.top - chartMargin?.bottom, 0]),
     };
   }
 
@@ -104,7 +104,14 @@ export class ChartPanel extends Component {
   }
 
   render() {
-    const { chartWidth, chartHeight, sentimentHeight, chartMargin, brushHeight, brushMargin } = config;
+    const {
+      chartWidth,
+      chartHeight,
+      sentimentHeight,
+      chartMargin,
+      brushHeight,
+      brushMargin,
+    } = config;
     const { minX, maxX } = this._getXRange(this.state.dataStock);
 
     /*
@@ -157,7 +164,7 @@ export class ChartPanel extends Component {
           />
         </div>
         {this.state.dataSentiment.length > 0 && (
-          <div className="rightY" style={{bottom: sentimentHeight + 3}}>
+          <div className="rightY" style={{ bottom: sentimentHeight + 3 }}>
             <LineChart
               data={this.state.dataSentiment}
               width={chartWidth}

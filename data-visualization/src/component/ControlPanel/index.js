@@ -119,7 +119,12 @@ export const ControlPanel = (props) => {
                 control={
                   <Checkbox onChange={handleCheckChange} checked={selectedSmall} name="small" />
                 }
-                label={<><span>Custom (small)</span><span> -</span></>}
+                label={
+                  <>
+                    <span>Custom (small)</span>
+                    <span> -</span>
+                  </>
+                }
               />
               <FormControlLabel
                 control={
