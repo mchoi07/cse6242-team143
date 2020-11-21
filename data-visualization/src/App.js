@@ -36,7 +36,7 @@ export default function App(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h2" align="center">
+      <Typography variant="h3" align="center">
         Sentiment Analysis vs. Stock Price Movement
       </Typography>
       <AppBar position="static">

@@ -15,5 +15,9 @@
   "chartWidth": 1000,
   "chartHeight": 250,
   "sentimentHeight": 500,
-  "brushHeight": 50
+  "brushHeight": 60,
+  "colorStock": "#1f77b4",
+  "colorBlob": "#aec7e8",
+  "colorSmall": "#ff7f0e",
+  "colorLarge": "#ffbb78"
 }

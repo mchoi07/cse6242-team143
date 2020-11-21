@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import config from '../../config/config.json';
 import {
   Box,
   Card,
@@ -24,9 +25,22 @@ const useStyles = makeStyles((theme) =>
     },
     cardTitle: {
       textAlign: 'center',
+      marginBottom: '10px',
     },
     cardAction: {
-      textAlign: 'center',
+      margin: 'auto',
+    },
+    labelStock: {
+      color: config.colorStock,
+    },
+    labelBlob: {
+      color: config.colorBlob,
+    },
+    labelSmall: {
+      color: config.colorSmall,
+    },
+    labelLarge: {
+      color: config.colorLarge,
     },
   })
 );
@@ -68,6 +82,72 @@ export const ControlPanel = (props) => {
   return (
     <Box alignItems="center" justifyContent="center">
       <Card className={classes.card}>
+        <h3 className={classes.cardTitle}>Sentiment Analysis</h3>
+        <CardContent>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Model</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                disabled
+                className={classes.labelStock}
+                control={
+                  <Checkbox
+                    style={{ color: config.colorStock }}
+                    indeterminate
+                    checked
+                    name="stock"
+                  />
+                }
+                label="Daily Price Change"
+              />
+              <FormControlLabel
+                className={classes.labelBlob}
+                control={
+                  <Checkbox
+                    style={{ color: config.colorBlob }}
+                    onChange={handleCheckChange}
+                    checked={selectedTextblob}
+                    name="textblob"
+                  />
+                }
+                label="TextBlob"
+              />
+              <FormControlLabel
+                className={classes.labelSmall}
+                control={
+                  <Checkbox
+                    style={{ color: config.colorSmall }}
+                    onChange={handleCheckChange}
+                    checked={selectedSmall}
+                    name="small"
+                  />
+                }
+                label="Custom (small)"
+              />
+              <FormControlLabel
+                className={classes.labelLarge}
+                control={
+                  <Checkbox
+                    style={{ color: config.colorLarge }}
+                    onChange={handleCheckChange}
+                    checked={selectedLarge}
+                    name="large"
+                  />
+                }
+                label="Custom (large)"
+              />
+            </FormGroup>
+          </FormControl>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Source</FormLabel>
+            <RadioGroup defaultValue="twitter" name="sentiment-model" onChange={handleRadioChange}>
+              <FormControlLabel value="twitter" control={<Radio />} label="Twitter" />
+              <FormControlLabel value="nytimes" control={<Radio />} label="NYTimes" />
+            </RadioGroup>
+          </FormControl>
+        </CardContent>
+      </Card>
+      <Card className={classes.card}>
         <h3 className={classes.cardTitle}>Stock Movement</h3>
         <CardContent>
           <TextField
@@ -86,55 +166,16 @@ export const ControlPanel = (props) => {
             }}
           />
         </CardContent>
-        <CardActions className={classes.cardAction}>
-          <Button size="small" variant="outlined" onClick={handleButtonClick}>
-            Apply
+        <CardActions>
+          <Button
+            className={classes.cardAction}
+            size="small"
+            variant="outlined"
+            onClick={handleButtonClick}
+          >
+            Calculate
           </Button>
         </CardActions>
-      </Card>
-      <Card className={classes.card}>
-        <h3 className={classes.cardTitle}>Sentiment Analysis</h3>
-        <CardContent>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Source</FormLabel>
-            <RadioGroup defaultValue="twitter" name="sentiment-model" onChange={handleRadioChange}>
-              <FormControlLabel value="twitter" control={<Radio />} label="Twitter" />
-              <FormControlLabel value="nytimes" control={<Radio />} label="NYTimes" />
-            </RadioGroup>
-          </FormControl>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Model</FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={handleCheckChange}
-                    checked={selectedTextblob}
-                    name="textblob"
-                  />
-                }
-                label="TextBlob"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox onChange={handleCheckChange} checked={selectedSmall} name="small" />
-                }
-                label={
-                  <>
-                    <span>Custom (small)</span>
-                    <span> -</span>
-                  </>
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox onChange={handleCheckChange} checked={selectedLarge} name="large" />
-                }
-                label="Custom (large)"
-              />
-            </FormGroup>
-          </FormControl>
-        </CardContent>
       </Card>
     </Box>
   );

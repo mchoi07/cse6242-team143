@@ -46,16 +46,24 @@
   opacity: 0.6;
   justify-content: center;
   align-items: center;
+  font-weight: bolder;
+  color: black;
 }
 
-.brush .extent {
-  stroke: #000;
-  fill-opacity: 0.125;
-  shape-rendering: crispEdges;
-}
+.brush {
+  .extent {
+    stroke: #000;
+    fill-opacity: 0.125;
+    shape-rendering: crispEdges;
+  }
 
-.brush .background {
-  fill: #ddd;
+  .background {
+    fill: #ddd;
+  }
+
+  .x.axis.label {
+    font-size: large;
+  }
 }
 
 .nofloat {
@@ -69,4 +77,13 @@
 
 .sentimentChart {
   height: 500px;
+}
+
+.title {
+  text-align: left;
+  font-weight: bold;
+  color: black;
+  &.brush {
+    font-size: small;
+  }
 }

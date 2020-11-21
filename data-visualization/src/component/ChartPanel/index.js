@@ -93,6 +93,11 @@ export class ChartPanel extends Component {
     }
   }
 
+  _getColor(label, p1, p2, p3) {
+    console.log(label, p1, p2, p3);
+    return 'green';
+  }
+
   _onChange(extent) {
     const { chartWidth, chartMargin } = config;
     this.setState({
@@ -123,6 +128,7 @@ export class ChartPanel extends Component {
     return (
       <div>
         <div className="sentimentChart">
+          <div className="title">Sentiment Score & Price Change</div>
           <div className="leftY">
             <LineChart
               data={this.state.dataMovement}
@@ -136,8 +142,13 @@ export class ChartPanel extends Component {
                 tickFormat: d3.time.format('%m/%d'),
                 zero: 0,
               }}
-              yAxis={{ label: '% of price changes' }}
+              yAxis={{ label: 'price changes' }}
               tooltipHtml={this._tooltipHtml}
+              stroke={{
+                strokeColor: this._getColor,
+                colorStroke: this._getColor,
+              }}
+              colorStroke={this._getColor}
             />
           </div>
           {this.state.dataSentiment.length > 0 && (
@@ -162,6 +173,7 @@ export class ChartPanel extends Component {
         </div>
 
         <div className="brush nofloat">
+          <div className="title brush">Date Range Selector</div>
           <Brush
             width={chartWidth}
             height={brushHeight}
@@ -172,10 +184,10 @@ export class ChartPanel extends Component {
             xAxis={{
               tickValues: this.state.xScaleBrush.ticks(20),
               tickFormat: d3.time.format('%m/%d'),
-              label: 'Watching Timeline',
             }}
           />
         </div>
+        <div className="title">Stock Price</div>
         <LineChart
           data={this.state.dataStock}
           width={chartWidth}
