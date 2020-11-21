@@ -90,7 +90,7 @@ export class ChartPanel extends Component {
           margin={chartMargin}
           xScale={this.state.xScale}
           xAxis={{
-            tickValues: this.state.xScale.ticks(d3.time.day, 2),
+            tickValues: this.state.xScale.ticks(20),
             tickFormat: d3.time.format('%m/%d'),
           }}
           tooltipHtml={this._tooltipHtml}
@@ -104,7 +104,7 @@ export class ChartPanel extends Component {
             extent={[minX, maxX]}
             onChange={this._onChange}
             xAxis={{
-              tickValues: this.state.xScaleBrush.ticks(d3.time.day, 2),
+              tickValues: this.state.xScaleBrush.ticks(20),
               tickFormat: d3.time.format('%m/%d'),
             }}
           />
