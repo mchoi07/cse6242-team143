@@ -1,4 +1,5 @@
 import nltk
+import pandas as pd
 nltk.download('twitter_samples')
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
@@ -21,13 +22,14 @@ stop_words = stopwords.words('english')
 
 
 class NLPModule:
-    def __init__(self, whitelist_path = None, ngrams = None):
+    def __init__(self, whitelist_path = None, ngrams = None, labeled_data_path = None):
         self.tbd = None
         self.train_data = None
         self.test_data = None
         self.normalizer = WordNetLemmatizer()
         self.whitelist = []
         self.ngrams = ngrams
+        self.labeled_dataset_path = labeled_data_path
         if whitelist_path != None and path.exists(whitelist_path):
             with open(whitelist_path, "r") as file:
                 for line in file:
@@ -143,14 +145,41 @@ class NLPModule:
 
         return positive_data_tokenized, negative_data_tokenized
 
+    # Function to load the raw data for training the model.
+    # This is larger data set with 1.6 million labeled
+    # tweets from http://help.sentiment140.com/for-students
+    # Inputs <- None
+    # Ouput -> Positive_data_tokenized: type list of strings,
+    #          negative_data_tokenized: type list of strings
+    def load_large_raw_training_data(self, path):
+        #Load the in built NLTK training data. Used other data sets if necessary
+        #to improve accuracy.
+        df = pd.read_csv(path, encoding = "ISO-8859-1").iloc[:,[0,5]]
+        df.columns = ['label', 'text']
+        #keep only positive and negatives.
+        df = df[(df['label'] == 4) | (df['label'] == 0)]
+        df['text'] = df['text'].apply(self.tokenize)
+
+        positive_data = df[df['label'] == 4]
+        negative_data = df[df['label'] == 0]
+
+        positive_data_tokenized = positive_data['text'].tolist()
+        negative_data_tokenized = negative_data['text'].tolist()
+
+        return positive_data_tokenized, negative_data_tokenized
+
     # Function to get the pre-labeled training data and sampled test data after,
     # cleaning, vectorization and etc.
     # Inputs <- training ratio: type float <= 1.0, Ratio of training data from all data
     # Ouput -> train_data: data to train the model
     #          test_data: sampled test data to check model accuracy
     def get_training_data (self, training_ratio = 0.8):
-        #Get the poitive and negative data in raw tokenized form
-        positive_data, negative_data = self.load_raw_training_data()
+
+        if (self.labeled_dataset_path == None):
+            #Get the poitive and negative data in raw tokenized form
+            positive_data, negative_data = self.load_raw_training_data()
+        else:
+            positive_data, negative_data = self.load_large_raw_training_data(self.labeled_dataset_path)
 
         #Clean all tokens
         positive_data_cleaned = self.clean_tokenized_sentences(positive_data)
@@ -263,8 +292,17 @@ class SentimentClassifier:
 if __name__ == '__main__':
     #N_GRAMS = 2
     #nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt", ngrams = N_GRAMS)
-    nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt")
-    sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier")
+    #LARGE_DATASET = True
+    LARGE_DATASET = False
+
+    if(LARGE_DATASET == True):
+        nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt",
+                            labeled_data_path="./trainingandtestdata/training.1600000.processed.noemoticon.csv")
+        sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier_large")
+    else:
+        nlp_mod = NLPModule(whitelist_path = "whitelist_words.txt")
+        sentiment_classifier = SentimentClassifier(nlp_mod, "trained_sentiment_classifier")
+
     sentiment_classifier.train_model()
 
     #Test code
