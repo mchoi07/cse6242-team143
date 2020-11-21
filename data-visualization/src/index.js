@@ -19,7 +19,6 @@ const preprocessData = (rawData, processed = {}, isLarge = false) => {
       neutrals_custom,
       negatives_custom,
       price,
-      price_change,
     } = data;
     let marketDate = date.split('-');
     const x = new Date(`${marketDate[2]}-${marketDate[0]}-${marketDate[1]}T20:00:00.000Z`);
@@ -29,12 +28,12 @@ const preprocessData = (rawData, processed = {}, isLarge = false) => {
         twitter: {
           textblob: [],
           small: [],
-          large: []
+          large: [],
         },
         nytimes: {
           textblob: [],
           small: [],
-          large: []
+          large: [],
         },
       },
     };
@@ -54,7 +53,6 @@ const preprocessData = (rawData, processed = {}, isLarge = false) => {
       processed[company].stock.push({
         x,
         price,
-        y: price && price_change ? price_change / price : 0,
       });
     }
 
@@ -76,14 +74,26 @@ const preprocessData = (rawData, processed = {}, isLarge = false) => {
       negatives: negatives_custom,
     });
   });
+
   return processed;
 };
 
-Promise.all([fetch('data/aggregated.json'), fetch('data/aggregated_large.json')]) 
+Promise.all([fetch('data/aggregated.json'), fetch('data/aggregated_large.json')])
   .then(([s, l]) => Promise.all([s.json(), l.json()]))
   .then(([sdata, ldata]) => {
     const appData = preprocessData(sdata);
     preprocessData(ldata, appData, true);
+    for (const company in appData) {
+      const stockPrice = appData[company].stock;
+      let prevPrice = stockPrice.find((el) => el.price > 0).price;
+      prevPrice = Math.round(prevPrice * 100) / 100;
+      stockPrice.map((el) => {
+        el.price = el.price ? Math.round(el.price * 100) / 100 : Math.round(prevPrice * 100) / 100;
+        el.y = (el.price - prevPrice) / prevPrice;
+        prevPrice = el.price;
+      });
+    }
+
     ReactDOM.render(<App appData={appData} />, document.getElementById('root'));
   });
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { LineChart, Brush, d3 } from 'react-d3-components';
+import { Brush, d3 } from 'react-d3-components';
+//import LineChart from '../LineChart';
+import { LineChart } from 'react-d3-components';
 
 import './index.scss';
 
@@ -14,14 +16,29 @@ export class ChartPanel extends Component {
   }
 
   getStateFromProps(props) {
-    const { chartWidth, chartMargin, brushMargin } = config;
-    const { minX, maxX } = this._getRange(props.data);
+    const { chartHeight, chartWidth, chartMargin, brushMargin } = config;
+    const { minX, maxX } = this._getXRange(props.data[0]);
     return {
-      data: props.data,
+      dataStock: {
+        label: '',
+        values: props.data[0].values.map((el) => {
+          return { ...el, y: el.price };
+        }),
+      },
+      dataMovement: props.data[0],
+      dataSentiment: props.data.slice(1),
       xScale: d3.time
         .scale()
         .domain([minX, maxX])
         .range([0, chartWidth - chartMargin?.left - chartMargin?.right]),
+      yScaleMovement: d3.scale
+        .linear()
+        .domain(this._getYRange(props.data[0]))
+        .range([0, chartHeight - chartMargin?.top - chartMargin?.bottom]),
+      yScaleSentiment: d3.scale
+        .linear()
+        .domain(this._getYRange(props.data.slice(1)))
+        .range([0, chartHeight - chartMargin?.top - chartMargin?.bottom]),
       xScaleBrush: d3.time
         .scale()
         .domain([minX, maxX])
@@ -32,17 +49,32 @@ export class ChartPanel extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.data !== prevProps.data) {
       const newState = this.getStateFromProps(this.props);
-      this.setState(this.getStateFromProps(newState));
+      this.setState(newState);
     }
   }
 
-  _getRange(data) {
+  _getXRange(data) {
     let minX, maxX;
-    if (data.length > 0) {
-      minX = data[0].values?.length > 0 ? data[0].values[0].x : 0;
-      maxX = data[0].values?.length > 0 ? data[0].values[data[0].values.length - 1].x : 0;
-    }
+    minX = data.values?.length > 0 ? data.values[0].x : 0;
+    maxX = data.values?.length > 0 ? data.values[data.values.length - 1].x : 0;
     return { minX, maxX };
+  }
+
+  _getMaxAbs(arr) {
+    return arr.reduce((max, cur) => Math.max(max, Math.abs(cur)), 0);
+  }
+
+  _getYRange(data) {
+    let maxAbs = 0;
+    if (Array.isArray(data)) {
+      for (let i = 0; i < data.length; i++) {
+        maxAbs = Math.max(maxAbs, this._getMaxAbs(data[i].values.map((el) => el.y)));
+      }
+    } else {
+      maxAbs = Math.max(maxAbs, this._getMaxAbs(data.values.map((el) => el.y)));
+    }
+
+    return [-maxAbs, maxAbs];
   }
 
   _tooltipHtml(label, data) {
@@ -73,7 +105,7 @@ export class ChartPanel extends Component {
 
   render() {
     const { chartWidth, chartHeight, chartMargin, brushHeight, brushMargin } = config;
-    const { minX, maxX } = this._getRange(this.state.data);
+    const { minX, maxX } = this._getXRange(this.state.dataStock);
 
     /*
     const xScaleBrush = d3.time
@@ -84,18 +116,17 @@ export class ChartPanel extends Component {
     return (
       <div>
         <LineChart
-          data={this.state.data}
+          data={this.state.dataStock}
           width={chartWidth}
           height={chartHeight}
           margin={chartMargin}
           xScale={this.state.xScale}
           xAxis={{
-            tickValues: this.state.xScale.ticks(20),
+            tickValues: this.state.xScale.ticks(10),
             tickFormat: d3.time.format('%m/%d'),
           }}
-          tooltipHtml={this._tooltipHtml}
         />
-        <div className="brush" style={{ float: 'none' }}>
+        <div className="brush nofloat">
           <Brush
             width={chartWidth}
             height={brushHeight}
@@ -109,6 +140,41 @@ export class ChartPanel extends Component {
             }}
           />
         </div>
+        <div className="leftY">
+          <LineChart
+            data={this.state.dataMovement}
+            width={chartWidth}
+            height={chartHeight}
+            margin={chartMargin}
+            xScale={this.state.xScale}
+            yScale={this.state.yScaleMovement}
+            xAxis={{
+              tickValues: this.state.xScale.ticks(10),
+              tickFormat: d3.time.format('%m/%d'),
+              zero: 0,
+            }}
+            tooltipHtml={this._tooltipHtml}
+          />
+        </div>
+        {this.state.dataSentiment.length > 0 && (
+          <div className="rightY">
+            <LineChart
+              data={this.state.dataSentiment}
+              width={chartWidth}
+              height={chartHeight}
+              margin={chartMargin}
+              xScale={this.state.xScale}
+              yScale={this.state.yScaleSentiment}
+              xAxis={{
+                tickValues: this.state.xScale.ticks(10),
+                tickFormat: d3.time.format(''),
+                zero: 0,
+              }}
+              yAxis={{ orientation: 'right' }}
+              tooltipHtml={this._tooltipHtml}
+            />
+          </div>
+        )}
       </div>
     );
   }
