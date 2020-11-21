@@ -13,6 +13,7 @@
     "right": 35
   },
   "chartWidth": 1000,
-  "chartHeight": 400,
+  "chartHeight": 500,
+  "sentimentHeight": 250,
   "brushHeight": 50
 }
